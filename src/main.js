@@ -17,6 +17,8 @@ export const setCardType = (cardType) => {
   creditCardLogo.setAttribute("src", `cc-${cardType}.svg`)
 }
 
+globalThis.setCardType = setCardType
+
 const securityCode = document.getElementById("security-code")
 const securityCodePattern = { mask: "0000" }
 const maskedSecurityCode = IMask(securityCode, securityCodePattern)
@@ -71,4 +73,50 @@ const cardNumberPattern = {
 }
 const maskedCardNumber = IMask(cardNumber, cardNumberPattern)
 
-globalThis.setCardType = setCardType
+const addCardButton = document.getElementById("add-card-button")
+addCardButton.addEventListener("click", () => alert("Cartão adicionado!"))
+
+document
+  .querySelector("form")
+  .addEventListener("submit", (event) => event.preventDefault())
+
+// Manipulate the inputs to animate the card at the screen
+const cardHolder = document.getElementById("card-holder")
+cardHolder.addEventListener("input", () => {
+  const ccHolder = document.querySelector(".cc-holder .value")
+
+  ccHolder.innerText =
+    cardHolder.value.length > 0 ? cardHolder.value : "FULANO DA SILVA"
+})
+
+const updateSecurityCode = (code) => {
+  const ccSecurity = document.querySelector(".cc-security .value")
+
+  ccSecurity.innerText = code.length > 0 ? code : "123"
+}
+
+maskedSecurityCode.on("accept", () =>
+  updateSecurityCode(maskedSecurityCode.value)
+)
+
+const updateCardNumber = (cardNumber) => {
+  const ccNumber = document.querySelector(".cc-number")
+
+  ccNumber.innerText =
+    cardNumber.length > 0 ? cardNumber : "1234 5678 9012 3456"
+}
+
+maskedCardNumber.on("accept", () => {
+  const { cardType } = maskedCardNumber.masked.currentMask
+  setCardType(cardType)
+  updateCardNumber(maskedCardNumber.value)
+})
+
+const updateExpirationDate = (date) => {
+  const ccExpiration = document.querySelector(".cc-expiration .value")
+  ccExpiration.innerText = date.length > 0 ? date : "05/26"
+}
+
+maskedExpirationDate.on("accept", () => {
+  updateExpirationDate(maskedExpirationDate.value)
+})

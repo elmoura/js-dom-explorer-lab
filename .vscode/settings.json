@@ -16,7 +16,7 @@
   // workbench
   "workbench.editor.enablePreview": false,
   "workbench.iconTheme": "eq-material-theme-icons-ocean",
-  "workbench.colorTheme": "GitHub Dark",
+  "workbench.colorTheme": "GitHub Dark Dimmed",
 
   // prettier
   "editor.defaultFormatter": "esbenp.prettier-vscode",
